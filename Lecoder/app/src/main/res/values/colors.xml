@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#e101ff</color>
+    <color name="iconStlye1">#ad60ff</color>
+    <color name="iconStlye2">#e3c5ff</color>
+    <color name="iconStlye3">#e101ff</color>
+    <color name="iconStlye4">#e101ff</color>
+    <color name="iconStlye5">#e101ff</color>
+</resources>
