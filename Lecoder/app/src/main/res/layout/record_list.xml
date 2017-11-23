@@ -6,7 +6,7 @@
               android:orientation="vertical">
     <android.support.v7.widget.CardView
         app:cardCornerRadius="5dp"
-        app:cardElevation="10dp"
+        android:layout_margin="1dp"
         app:cardUseCompatPadding="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -15,39 +15,49 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <TextView
-                android:id="@+id/fastRecordDate"
+                android:id="@+id/recordDate"
                 android:text="2017/12/23"
                 android:layout_margin="3dp"
                 android:textColor="#444444"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <Button
-                android:id="@+id/fastRecordGoBtn"
+                android:id="@+id/recordGoBtn"
                 android:layout_alignParentRight="true"
                 android:background="@drawable/go_arrow"
                 android:layout_width="50dp"
                 android:layout_height="50dp"/>
             <TextView
-                android:id="@+id/fastRecordDuration"
+                android:id="@+id/recordDuration"
                 android:text="07:12"
                 android:layout_margin="3dp"
                 android:textColor="#666666"
-                android:layout_toLeftOf="@id/fastRecordGoBtn"
+                android:layout_toLeftOf="@id/recordGoBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
             <View
                 android:background="#555555"
-                android:layout_below="@id/fastRecordDate"
+                android:layout_below="@id/recordDate"
                 android:layout_marginRight="50dp"
                 android:layout_width="match_parent"
                 android:layout_height="1px"/>
             <TextView
-                android:id="@+id/fastRecordName"
+                android:id="@+id/recordName"
                 android:textSize="20dp"
                 android:text="빠른녹음001"
                 android:textColor="#222222"
                 android:layout_margin="3dp"
-                android:layout_below="@id/fastRecordDate"
+                android:layout_below="@id/recordDate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:id="@+id/recordClass"
+                android:textSize="20dp"
+                android:text="모바일소프트웨어"
+                android:visibility="gone"
+                android:layout_below="@id/recordDate"
+                android:layout_margin="3dp"
+                android:textColor="#222222"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
         </RelativeLayout>
