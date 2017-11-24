@@ -1,6 +1,7 @@
 package com.lecoder.team9.lecoder;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewLecture.setHasFixedSize(true);
 
         //---툴바 설정
-        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        toolbar= (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("나만의 강의록, LECORDER");
         //---툴바 설정
@@ -185,7 +186,8 @@ public class MainActivity extends AppCompatActivity {
         if (item.getItemId()==R.id.calendarBtn){
             Toast.makeText(getApplicationContext(),"캘린더 메뉴",Toast.LENGTH_SHORT).show();
         }else if(item.getItemId()==R.id.settingsBtn){
-            Toast.makeText(getApplicationContext(),"설정 메뉴",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this, SettingActivity.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }
