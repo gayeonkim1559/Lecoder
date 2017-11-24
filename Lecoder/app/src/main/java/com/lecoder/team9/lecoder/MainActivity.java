@@ -6,13 +6,17 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -23,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerViewFast,recyclerViewLecture;
     MyAdapter adapter;
     RecyclerView.LayoutManager layoutManager,layoutManager2;
-
+    Toolbar toolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,6 +39,13 @@ public class MainActivity extends AppCompatActivity {
 
         recyclerViewLecture= (RecyclerView) findViewById(R.id.recyclerView_lecture);
         recyclerViewLecture.setHasFixedSize(true);
+
+        //---툴바 설정
+        toolbar= (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle("나만의 강의록, LECORDER");
+        //---툴바 설정
+
         //----팝업 버튼 애니메이션 동작
         plusBtn = (FloatingActionButton) findViewById(R.id.mainPlusBtn);
         fastRecordBtn = (FloatingActionButton) findViewById(R.id.mainFastRecordBtn);
@@ -62,9 +73,21 @@ public class MainActivity extends AppCompatActivity {
                 lectureRecordBtn.startAnimation(lectureRecordAnim);
             }
         });
+        fastRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"빠른녹음 시작",Toast.LENGTH_SHORT).show();
+            }
+        });
+        lectureRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getApplicationContext(),"강의녹음 시작",Toast.LENGTH_SHORT).show();
+            }
+        });
         //----팝업 버튼 애니메이션 동작
 
-        //----빠른녹음 리스트
+        //----빠른녹음 샘플 리스트
         ArrayList fastItem=new ArrayList<>();
         fastItem.add(new RecordListItem("느린녹음001","2017/03/14","24:11"));
         fastItem.add(new RecordListItem("빠른녹음001","2017/08/10","09:31"));
@@ -74,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewFast.setLayoutManager(layoutManager);
         adapter=new MyAdapter(fastItem,mContext,false);
         recyclerViewFast.setAdapter(adapter);
-        //----빠른녹음 리스트
+        //----강의녹음 샘플 리스트
         ArrayList lectureItem=new ArrayList();
         lectureItem.add(new RecordListItem("002","2017/11/21","33:12","모바일소프트웨어공학"));
         lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
@@ -111,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, final int position) {
             MyViewHolder aHolder= (MyViewHolder) holder;
             aHolder.recordName.setText(mItems.get(position).recordName);
             aHolder.recordDuration.setText(mItems.get(position).recordDuration);
@@ -123,6 +146,13 @@ public class MainActivity extends AppCompatActivity {
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) recordClassText.getLayoutParams();
                 params.addRule(RelativeLayout.LEFT_OF, R.id.recordGoBtn);
             }
+            aHolder.itemView.setOnClickListener(new View.OnClickListener() {
+                //터치 이벤트 임시 출력
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplicationContext(),"리스트 구분 : "+(isLectureList?"강의녹음":"빠른녹음")+"\n클릭한 아이템 : "+mItems.get(position).recordName.toString(),Toast.LENGTH_SHORT).show();
+                }
+            });
         }
 
         @Override
@@ -142,5 +172,21 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main,menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId()==R.id.calendarBtn){
+            Toast.makeText(getApplicationContext(),"캘린더 메뉴",Toast.LENGTH_SHORT).show();
+        }else if(item.getItemId()==R.id.settingsBtn){
+            Toast.makeText(getApplicationContext(),"설정 메뉴",Toast.LENGTH_SHORT).show();
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
