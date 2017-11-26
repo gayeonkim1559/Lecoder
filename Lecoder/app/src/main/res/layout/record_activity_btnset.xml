@@ -1,26 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="#BFAEB8">
 
-    <com.lecoder.team9.lecoder.BitmapButton
+    <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/memoBtn"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
         android:text="Memo"/>
 
-    <com.lecoder.team9.lecoder.BitmapButton
+    <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/drawingBtn"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_margin="10dp"
         android:layout_toRightOf="@+id/memoBtn"
         android:text="Drawing"/>
 
-    <com.lecoder.team9.lecoder.BitmapButton
+    <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/cameraBtn"
-        android:layout_width="100dp"
-        android:layout_height="70dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:padding="10dp"
+        android:layout_margin="10dp"
         android:layout_toRightOf="@+id/drawingBtn"
         android:text="Camera"/>
 
-</RelativeLayout>
+</LinearLayout>

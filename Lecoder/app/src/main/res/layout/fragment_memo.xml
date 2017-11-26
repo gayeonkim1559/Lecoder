@@ -3,39 +3,53 @@
 android:orientation="vertical" android:layout_width="match_parent"
 android:layout_height="match_parent">
 
-    <include
-        android:id="@+id/fragmentBtnSet"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        layout="@layout/fragment_btnset"/>
-    
-    <LinearLayout
-        android:id="@+id/memoInput"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-        
-        <LinearLayout
+        android:layout_height="match_parent">
+
+        <include
+            android:id="@+id/btnSet"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
+            layout="@layout/fragment_btnset"/>
+
+        <RelativeLayout
+            android:id="@+id/pageContainer"
+            android:layout_below="@id/btnSet"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/pageText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Page : "/>
-            
+                android:layout_marginTop="5dp"
+                android:text="Page :"
+                android:textSize="23dp"
+                android:layout_marginRight="5dp"/>
+
             <EditText
                 android:id="@+id/pageInput"
-                android:layout_width="40dp"
+                android:layout_toRightOf="@+id/pageText"
+                android:layout_width="90dp"
+                android:inputType="number"
                 android:layout_height="wrap_content" />
-        </LinearLayout>
 
-        <!--백그라운드 그림 설정하기-->
-        <EditText
-            android:id="@+id/memoEdit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="메모할 내용을 입력하세요"/>
-    </LinearLayout>
+            <EditText
+                android:id="@+id/memoInput"
+                android:layout_marginTop="25dp"
+                android:layout_below="@+id/pageText"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:overScrollMode="always"
+                android:scrollbarStyle="insideInset"
+                android:scrollbars="vertical"
+                android:background="@drawable/memo_border"/>
+        </RelativeLayout>
+    </RelativeLayout>
 </FrameLayout>
