@@ -1,9 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.lecoder.team9.lecoder.PlayActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <com.jackandphantom.circularprogressbar.CircleProgressbar
+        android:layout_width="250dp"
+        android:layout_height="250dp"
+        app:cpb_progress="50"
+        app:cpb_roundedCorner="true"
+        app:cpb_foregroundProgressWidth="15"
+        app:cpb_foregroundProgressColor="#1864c2"
+        app:cpb_touchEnabled="true"
+        android:src="@drawable/sample"/>
+
+</RelativeLayout>
