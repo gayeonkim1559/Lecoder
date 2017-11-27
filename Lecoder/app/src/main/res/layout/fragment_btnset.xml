@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--프레그먼트의 버튼 집합의 백그라운드 색깔 설정해야함.-->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/fragmentBtnSet"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#BFAEB8">
+
+    <TextView
+        android:id="@+id/currentTime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textSize="25dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="15dp"
+        android:text="03:15"
+        android:layout_centerVertical="true"
+        android:textColor="#000000"/>
+
+    <ImageButton
+        android:id="@+id/saveBtn"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginRight="12dp"
+        android:layout_width="30dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/check_button"
+        android:layout_alignParentRight="true"/>
+</RelativeLayout>
