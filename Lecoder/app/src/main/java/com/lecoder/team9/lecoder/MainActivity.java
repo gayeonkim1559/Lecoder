@@ -3,6 +3,7 @@ package com.lecoder.team9.lecoder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -42,9 +43,13 @@ public class MainActivity extends AppCompatActivity {
         recyclerViewLecture.setHasFixedSize(true);
 
         //---툴바 설정
+        CollapsingToolbarLayout toolbarLayout= (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbarLayout01);
+        toolbarLayout.setTitleEnabled(true);
         toolbar= (Toolbar) findViewById(R.id.toolbar_main);
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("나만의 강의록, LECORDER");
+        toolbarLayout.setExpandedTitleTextAppearance(R.style.ExpandedAppBar);
+        toolbarLayout.setCollapsedTitleTextAppearance(R.style.CollapsedAppBar);
         //---툴바 설정
 
         //----팝업 버튼 애니메이션 동작
