@@ -82,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
         fastRecordBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"빠른녹음 시작",Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),"빠른녹음 시작",Toast.LENGTH_SHORT).show();
+                Intent intent=new Intent(getApplicationContext(),RecordActivity.class);
+                startActivity(intent);
             }
         });
         lectureRecordBtn.setOnClickListener(new View.OnClickListener() {
@@ -189,10 +191,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId()==R.id.calendarBtn){
-            Toast.makeText(getApplicationContext(),"캘린더 메뉴",Toast.LENGTH_SHORT).show();
+            Intent intent=new Intent(this,TimeTableActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
         }else if(item.getItemId()==R.id.settingsBtn){
             Intent intent=new Intent(this, SettingActivity.class);
             startActivity(intent);
+            overridePendingTransition(R.anim.start_enter, R.anim.start_exit);
         }
         return super.onOptionsItemSelected(item);
     }
