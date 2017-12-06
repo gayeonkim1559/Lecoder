@@ -15,11 +15,15 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
-        <activity android:name=".RecordActivity" />
+      </activity>
         <activity android:name=".PlayActivity"/>
-        <activity android:name=".SettingActivity" />
-        <!--<activity android:name=".PlayActivity"></activity>-->
+        <activity android:name=".RecordActivity"/>
+        <activity android:name=".SettingActivity"/>
+        <activity android:name=".TimeTableActivity">
+        </activity>
+        <activity android:name=".CreateTimeTableActivity"
+            android:theme="@style/Theme.MyDialog">
+        </activity>
     </application>
 
 </manifest>

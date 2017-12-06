@@ -19,14 +19,15 @@ android {
     }
 }
 
-
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+
     compile 'com.jackandphantom.android:circularprogressbar:1.2.0'
     compile 'com.jackandphantom.android:circularimageview:1.2.0'
+    compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.elmargomez.typer:typerlib:1.0.0'
     compile 'com.android.support:appcompat-v7:26.+'
     compile 'com.android.support:design:26.+'
