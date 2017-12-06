@@ -1,15 +1,10 @@
 package com.lecoder.team9.lecoder;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageButton;
 
@@ -102,7 +97,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
 
         switch (fragmentNum) {
             case MEMO:
-                //transaction.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
+                transaction.setCustomAnimations(R.anim.slide_in_down, R.anim.slide_out_down);
                 //transaction.setCustomAnimations()
                 transaction.replace(R.id.fragment_container, memoFragment);
                 transaction.commit();

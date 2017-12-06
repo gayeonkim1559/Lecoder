@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_timetable"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary" />
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TableLayout
+            android:id="@+id/header"
+            android:layout_width="match_parent"
+            android:layout_marginRight="2dp"
+            android:layout_marginLeft="2dp"
+            android:layout_height="wrap_content">
+            <TableRow>
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"/>
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="월" />
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="화" />
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="수" />
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="목" />
+                <TextView
+                    android:textColor="@android:color/black"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="금" />
+                <TextView
+                    android:textColor="#2222ee"
+                    android:gravity="center"
+                    android:layout_weight="1"
+                    android:textStyle="bold"
+                    android:width="0dp"
+                    android:height="35dp"
+                    android:background="@drawable/timetable_cell"
+                    android:text="토" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <GridView
+            android:id="@+id/table_gridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:background="#eeddeeee"
+            android:numColumns="7"/>
+        <RelativeLayout
+            android:id="@+id/drawLayout"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+        </RelativeLayout>
+    </FrameLayout>
+
+</LinearLayout>

@@ -34,4 +34,10 @@ public class SettingActivity extends PreferenceActivity {
         LayoutInflater.from(this).inflate(layoutResID,contentWrapper,true);
         getWindow().setContentView(contentView);
     }
+
+    @Override
+    public void finish() {
+        super.finish();
+        overridePendingTransition(R.anim.end_enter, R.anim.end_exit);
+    }
 }
