@@ -334,7 +334,6 @@ public class CreateTimeTableActivity extends AppCompatActivity {
                 String hour=(i<10?"0"+String.valueOf(i):String.valueOf(i));
                 String minute=(i1<10?"0"+String.valueOf(i1):String.valueOf(i1));
                 String value = hour + ":" + minute;
-
                 if (toggle==START_TIME){
                     startTimeBtn.setText(value);
                     nextHour=i;

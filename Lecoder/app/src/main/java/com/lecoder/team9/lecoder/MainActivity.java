@@ -1,10 +1,13 @@
 package com.lecoder.team9.lecoder;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +15,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -20,7 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     FloatingActionButton plusBtn, fastRecordBtn, lectureRecordBtn;
@@ -30,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     MyAdapter adapter;
     RecyclerView.LayoutManager layoutManager,layoutManager2;
     Toolbar toolbar;
+    String key = "Key";
+    SharedPreferences shref;
+    CharSequence itemList[];
+    ArrayList<TimeTableItem> itemArrayList;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
 //                Toast.makeText(getApplicationContext(),"빠른녹음 시작",Toast.LENGTH_SHORT).show();
                 Intent intent=new Intent(getApplicationContext(),RecordActivity.class);
+                intent.putExtra("recordType","Fast");
                 startActivity(intent);
             }
         });
@@ -91,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"강의녹음 시작",Toast.LENGTH_SHORT).show();
+                showLectureList();
             }
         });
         //----팝업 버튼 애니메이션 동작
@@ -121,7 +135,70 @@ public class MainActivity extends AppCompatActivity {
         adapter=new MyAdapter(lectureItem,mContext,true);
         recyclerViewLecture.setAdapter(adapter);
 
+
+
+        //강의버튼 - 목록
+        shref = getApplicationContext().getSharedPreferences("table", Context.MODE_PRIVATE);
     }
+
+    private void showLectureList() {
+
+        AlertDialog.Builder builder=new AlertDialog.Builder(this);
+        builder.setTitle("강의를 선택하세요.");
+        builder.setItems(itemList, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                Intent intent=new Intent(getApplicationContext(),RecordActivity.class);
+                intent.putExtra("recordType","Lecture");
+                intent.putExtra("recordClass",itemList[i].toString());
+                Toast.makeText(MainActivity.this, itemList[i].toString(), Toast.LENGTH_SHORT).show();
+                dialogInterface.dismiss();
+                startActivity(intent);
+            }
+
+
+        });
+        builder.setNegativeButton("닫기", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialogInterface, int i) {
+                dialogInterface.dismiss();
+            }
+        });
+        builder.show();
+    }
+
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+
+        return super.onTouchEvent(event);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //강의목록 읽어오기
+        itemArrayList=getItemArrayPref();
+        if (itemArrayList!=null){
+            itemList=new CharSequence[itemArrayList.size()];
+            int i=0;
+            for (TimeTableItem item:itemArrayList){
+                CharSequence cs=new StringBuffer("["+item.classDay+"] ["+item.classStartTime+"~"+item.classEndTime+"] "+item.className);
+                itemList[i++]=cs;
+            }
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+    }
+
+    public ArrayList<TimeTableItem> getItemArrayPref() {
+        Gson gson = new Gson();
+        String response=shref.getString(key , "");
+        return gson.fromJson(response,new TypeToken<List<TimeTableItem>>(){}.getType());
+    }
+
     class MyAdapter extends RecyclerView.Adapter{
         private Context context;
         private ArrayList<RecordListItem> mItems;
@@ -159,6 +236,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     Toast.makeText(getApplicationContext(),"리스트 구분 : "+(isLectureList?"강의녹음":"빠른녹음")+"\n클릭한 아이템 : "+mItems.get(position).recordName.toString(),Toast.LENGTH_SHORT).show();
+                    Intent intent=new Intent(getApplicationContext(),PlayActivity.class);
+                    startActivity(intent);
                 }
             });
         }
