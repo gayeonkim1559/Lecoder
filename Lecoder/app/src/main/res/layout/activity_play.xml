@@ -3,14 +3,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:id="@+id/playActivityContainer"
     android:layout_height="match_parent"
     tools:context="com.lecoder.team9.lecoder.PlayActivity"
     android:background="#0099e8">
-
     <RelativeLayout
         android:id="@+id/playerContainer"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true">
 
         <com.jackandphantom.circularimageview.CircleImage
@@ -21,10 +22,10 @@
             app:add_shadow="true"
             app:shadow_color="#eeeeee"
             app:shadow_radius="20"
-            android:layout_marginTop="90dp"
             android:layout_centerHorizontal="true"/>
 
         <com.jackandphantom.circularprogressbar.CircleProgressbar
+            android:id="@+id/circleProgressbar"
             android:layout_width="300dp"
             android:layout_height="300dp"
             app:cpb_progress="50"
@@ -33,15 +34,48 @@
             app:cpb_foregroundProgressColor="#bee8fe"
             app:cpb_touchEnabled="true"
             android:src="@drawable/sample"
-            android:layout_marginTop="90dp"
             android:layout_centerHorizontal="true"/>
     </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/timeLeftContainer"
+        android:layout_below="@id/playerContainer"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="15dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/time_playing"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13:20"
+            android:textStyle="bold"
+            android:textColor="#eeeeaa"
+            android:textSize="23dp"/>
+        <TextView
+            android:id="@+id/time_total"
+            android:layout_toRightOf="@id/time_playing"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="30dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="13:20"
+            android:textColor="#ffffff"
+            android:textSize="23dp"/>
+    </RelativeLayout>
+    <View
+        android:layout_below="@id/timeLeftContainer"
+        android:background="#ffffff"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="1px"/>
 
     <RelativeLayout
         android:id="@+id/playInfo"
-        android:layout_below="@+id/playerContainer"
+        android:layout_below="@+id/timeLeftContainer"
         android:orientation="vertical"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="15dp"
         android:layout_centerHorizontal="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -56,50 +90,58 @@
             android:textSize="20dp"/>
 
         <TextView
-            android:id="@+id/subjectInfo"
+            android:id="@+id/play_subjectInfo"
             android:layout_below="@id/recoredDate"
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
             android:text="데이터베이스"
+            android:textStyle="bold"
             android:textColor="#ffffff"
             android:layout_marginTop="7dp"
-            android:textSize="25dp"/>
+            android:textSize="35dp"/>
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/btnContainer"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/playInfo"
+        android:layout_alignParentBottom="true"
         android:layout_marginTop="5dp"
+        android:layout_marginBottom="25dp"
         android:layout_centerHorizontal="true">
 
         <ImageButton
             android:id="@+id/playBtn"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:scaleType="fitXY"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/playbutton_gray"/>
+            android:layout_centerInParent="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/play_btn"/>
+
+        <ImageButton
+            android:id="@+id/pauseBtn"
+            android:layout_centerInParent="true"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:background="@drawable/pause_btn"/>
 
         <ImageButton
             android:id="@+id/gridBtn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:layout_toLeftOf="@id/playBtn"
-            android:background="@drawable/grid_button"
-            android:layout_marginRight="30dp"/>
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/grid_button"/>
 
         <ImageButton
             android:id="@+id/addBtn"
-            android:layout_width="80dp"
-            android:layout_height="40dp"
-            android:scaleType="fitXY"
-            android:layout_toRightOf="@+id/playBtn"
-            android:background="@drawable/plus_button"
-            android:layout_marginLeft="30dp"/>
+            android:layout_centerVertical="true"
+            android:layout_marginRight="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/add_note"/>
     </RelativeLayout>
 
 </RelativeLayout>
