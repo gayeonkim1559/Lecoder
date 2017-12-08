@@ -1,5 +1,7 @@
 package com.lecoder.team9.lecoder;
 
+import android.content.Intent;
+import android.media.MediaRecorder;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -7,6 +9,9 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
+
+import java.io.File;
 
 /**
  * Created by GAYEON on 2017-11-23.
@@ -43,6 +48,8 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
         memoBtn.setOnClickListener(this);
         drawingBtn.setOnClickListener(this);
         cameraBtn.setOnClickListener(this);
+        recordBtn.setOnClickListener(this);
+        stopBtn.setOnClickListener(this);
     }
 
     @Override
@@ -69,6 +76,17 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     }
                     break;
                 case R.id.cameraBtn:
+                    break;
+                case R.id.recordBtn:
+                    Intent intent = new Intent(this, RecordService.class);
+                    startService(intent);
+                    Toast.makeText(getApplicationContext(), "녹음을 시작합니다", Toast.LENGTH_SHORT).show();
+                    break;
+                case R.id.stopBtn:
+                    Intent intent2 = new Intent(this, RecordService.class);
+                    stopService(intent2);
+                    Toast.makeText(getApplicationContext(), "저장을 완료하였습니다", Toast.LENGTH_SHORT).show();
+                    break;
         }
     }
 
