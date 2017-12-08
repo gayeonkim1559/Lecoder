@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           package="com.lecoder.team9.lecoder">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -16,13 +19,21 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
+        <activity android:name=".PlayActivity"/>
         <activity android:name=".RecordActivity"/>
         <activity android:name=".SettingActivity"/>
         <activity android:name=".TimeTableActivity">
         </activity>
-        <activity android:name=".CreateTimeTableActivity"
+        <activity
+            android:name=".CreateTimeTableActivity"
             android:theme="@style/Theme.MyDialog">
         </activity>
+
+        <receiver
+            android:name=".PushAlarmBroadcast"
+            android:enabled="true"
+            android:exported="true">
+        </receiver>
     </application>
 
 </manifest>

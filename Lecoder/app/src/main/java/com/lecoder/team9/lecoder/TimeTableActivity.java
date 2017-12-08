@@ -1,10 +1,13 @@
 package com.lecoder.team9.lecoder;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
+import android.icu.util.Calendar;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.RequiresApi;
@@ -44,6 +47,40 @@ public class TimeTableActivity extends AppCompatActivity {
     int rangeBetweenStartFromCell = 0;
     ArrayList<TimeTableItem> getItemList = new ArrayList<>();
     String[] daySet = {"", "월", "화", "수", "목", "금", "토"};
+    AlarmTimeSet alarmTimeSet;
+    int index=0;
+
+    public class AlarmTimeSet{
+        private Context context;
+
+        public AlarmTimeSet(Context context) {
+            this.context = context;
+        }
+        public void alarmSet(TimeTableItem item,int dayPos,int index){
+            AlarmManager alarmManager= (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+            Intent intent=new Intent(TimeTableActivity.this,PushAlarmBroadcast.class);
+
+            Calendar calendar=Calendar.getInstance();
+
+            int hour=Integer.valueOf(item.classStartTime.substring(0,2));//시작시각
+            int minute=Integer.valueOf(item.classStartTime.substring(3,5));//시작분
+
+            calendar.set(Calendar.DAY_OF_WEEK,dayPos+1);
+            calendar.set(Calendar.HOUR_OF_DAY,hour);
+            calendar.set(Calendar.MINUTE,minute);
+            calendar.set(Calendar.SECOND,0);
+            calendar.set(Calendar.MILLISECOND,0);
+            Log.e("[test] PUSH MSG : ",item.className);
+
+            long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+            intent.putExtra("className",item.className);
+            intent.putExtra("diff",diff);
+            PendingIntent sender=PendingIntent.getBroadcast(TimeTableActivity.this,index,intent,PendingIntent.FLAG_UPDATE_CURRENT);
+
+            alarmManager.setRepeating(AlarmManager.RTC_WAKEUP,calendar.getTimeInMillis(),24*7*60*60*1000,sender);
+        }
+    }
+
 
     public void setItemArrayPref(ArrayList<TimeTableItem> values) {
         Gson gson = new Gson();
@@ -62,11 +99,12 @@ public class TimeTableActivity extends AppCompatActivity {
     }
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_time_table);
+
+        alarmTimeSet=new AlarmTimeSet(getApplicationContext());
 
         gridView = (GridView) findViewById(R.id.table_gridView);
         drawLayout = (RelativeLayout) findViewById(R.id.drawLayout);
@@ -84,10 +122,15 @@ public class TimeTableActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        int count=0;
+        int count=getItemList.size();
+        if (count!=0){
+            for (int i=0;i<count;i++){
+                unregisterAlarm(getApplicationContext(),i);
+            }
+        }
         drawLayout.removeAllViews();
         getItemList=getItemArrayPref();
-
+        index=0;
         gridView.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
@@ -179,7 +222,8 @@ public class TimeTableActivity extends AppCompatActivity {
     private void renderTableCell(int position) {
         String day;
         int duration = 0;
-        day = daySet[position % 7];//1월,2화,3수,4목,5금,6토
+        int dayPos=position%7;
+        day = daySet[dayPos];//1월,2화,3수,4목,5금,6토
         if (getItemList.size() > 0) {
             for (TimeTableItem item : getItemList) {
                 if (item.classDay.equals(day)) {
@@ -190,6 +234,8 @@ public class TimeTableActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                     drawTimeTable(position, item.className, duration);
+                    alarmTimeSet.alarmSet(item,dayPos,index);
+                    index++;
                 }
             }
         }
@@ -241,4 +287,13 @@ public class TimeTableActivity extends AppCompatActivity {
         super.finish();
         overridePendingTransition(R.anim.end_enter, R.anim.end_exit);
     }
+
+    public static void unregisterAlarm(Context context,int index)
+    {
+        Intent intent = new Intent();
+        PendingIntent sender= PendingIntent.getBroadcast(context, index, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        AlarmManager manager =(AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        manager.cancel(sender);
+    }
+
 }
