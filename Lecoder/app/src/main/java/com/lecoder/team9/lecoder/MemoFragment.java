@@ -11,9 +11,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.PrintWriter;
 
 /**
@@ -23,10 +27,12 @@ import java.io.PrintWriter;
 public class MemoFragment extends Fragment implements View.OnClickListener{
     EditText pageNum;
     EditText memo;
-    Button storeBtn;
+    ImageButton storeBtn;
 
     final private  static File RECORDED_FILE = Environment.getExternalStorageDirectory();
     String dirPath = RECORDED_FILE.getAbsolutePath() + "/Lecoder";
+
+    BufferedWriter out;
 
     @Nullable
     @Override
@@ -55,10 +61,13 @@ public class MemoFragment extends Fragment implements View.OnClickListener{
 
     public void storeMemo() {
         try {
-            Log.d("메모 프래그먼트", "파일에 쓰기 전");
-            PrintWriter out = new PrintWriter(dirPath + "/text.txt");
-            out.print(memo.getText().toString());
-        }catch (Exception e) {
+            out = new BufferedWriter(new FileWriter(dirPath + "/text.txt"));
+            out.write(memo.getText().toString());
+            out.flush();
+            Log.d("메모프레그먼트", "텍스트 저장완료");
+            memo.setText("");
+            Toast.makeText(getContext(), "텍스트가 저장되었습니다.", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
             Log.e("MemoStoring Erro", "메모저장오류");
         }
     }

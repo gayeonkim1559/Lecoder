@@ -58,6 +58,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
         switch (view.getId()) {
                 case R.id.memoBtn:
                     if (memoFragment_Flag == CLOSED) {
+                        Log.d("레코드 액티비티", "프래그먼트 열기 전");
                         openFragment(MEMO);
                         memoFragment_Flag = OPEN;
                     }
@@ -86,7 +87,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                 case R.id.stopBtn:
                     Intent intent2 = new Intent(this, RecordService.class);
                     stopService(intent2);
-                    Toast.makeText(getApplicationContext(), "저장을 완료하였습니다", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "녹음 저장을 완료하였습니다", Toast.LENGTH_SHORT).show();
                     break;
         }
     }
@@ -97,7 +98,6 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
 
         switch (fragmentNum) {
             case MEMO:
-                Log.d("프래그먼트 열기 전", "!!!!!!");
                 transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 transaction.replace(R.id.fragment_container, memoFragment);
                 transaction.commit();
