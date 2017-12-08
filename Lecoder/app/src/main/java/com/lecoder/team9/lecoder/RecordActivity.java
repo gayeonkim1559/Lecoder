@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
@@ -96,6 +97,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
 
         switch (fragmentNum) {
             case MEMO:
+                Log.d("프래그먼트 열기 전", "!!!!!!");
                 transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 transaction.replace(R.id.fragment_container, memoFragment);
                 transaction.commit();
