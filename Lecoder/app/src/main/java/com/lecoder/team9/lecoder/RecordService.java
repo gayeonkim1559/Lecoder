@@ -22,6 +22,7 @@ public class RecordService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "서비스 호출되었습니다!!!!!!!");
         super.onCreate();
         //filename = RECORDED_FILE.getAbsolutePath()+"/Lecoder/test.mp4";
     }
@@ -34,7 +35,7 @@ public class RecordService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "Start Recording");
+        Log.d(TAG, "서비스 호출되었습니다222222!!!!!!!");
 
         if (intent == null) {
             return Service.START_STICKY;
@@ -48,7 +49,7 @@ public class RecordService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "Stop Recording");
+        Log.d(TAG, "서비스 종료!!!!!!!!!!!!");
 
         stopRecording();
         super.onDestroy();
@@ -63,7 +64,7 @@ public class RecordService extends Service {
             file.mkdir();
 
         String filePath = dirPath + "/test.mp4";
-//        filename = RECORDED_FILE.getAbsolutePath() +  File.separator  + Environment.DIRECTORY_DCIM + File.separator + "test.mp4";
+        //String filePath = RECORDED_FILE.getAbsolutePath() +  File.separator  + Environment.DIRECTORY_DCIM + File.separator + "test.mp4";
 
         if (recorder == null)
             recorder = new MediaRecorder();
@@ -75,9 +76,12 @@ public class RecordService extends Service {
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         recorder.setOutputFile(filePath);
 
+        Log.d("녹음 시작하기 전", "!!!!!!!!!!!!!!!!!");
+
         try {
             recorder.prepare();
             recorder.start();
+            Log.d("녹음 완료", "녹음이 완료되었습니다");
         }catch (Exception e) {
             Log.e("Recording Error", "녹음오류");
         }
