@@ -76,12 +76,10 @@ public class RecordService extends Service {
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         recorder.setOutputFile(filePath);
 
-        Log.d("녹음 시작하기 전", "!!!!!!!!!!!!!!!!!");
-
         try {
             recorder.prepare();
             recorder.start();
-            Log.d("녹음 완료", "녹음이 완료되었습니다");
+
         }catch (Exception e) {
             Log.e("Recording Error", "녹음오류");
         }
