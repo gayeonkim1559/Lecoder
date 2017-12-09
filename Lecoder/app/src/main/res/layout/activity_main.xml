@@ -126,8 +126,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="50dp"
             android:visibility="invisible"
-            app:backgroundTint="@color/iconStlye1"
-            app:srcCompat="@drawable/record2"/>
+            app:backgroundTint="@color/colorPrimary"
+            android:src="@drawable/record_fast"/>
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/mainLectureRecordBtn"
@@ -138,8 +138,8 @@
             android:layout_marginBottom="20dp"
             android:layout_marginRight="50dp"
             android:visibility="invisible"
-            app:backgroundTint="@color/iconStlye2"
-            app:srcCompat="@drawable/record1"/>
+            app:backgroundTint="@color/colorPrimaryDark"
+            android:src="@drawable/record_lec"/>
     </RelativeLayout>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -6,7 +6,7 @@
     android:id="@+id/playActivityContainer"
     android:layout_height="match_parent"
     tools:context="com.lecoder.team9.lecoder.PlayActivity"
-    android:background="#0099e8">
+    android:background="@drawable/play_backg">
     <RelativeLayout
         android:id="@+id/playerContainer"
         android:layout_width="wrap_content"
@@ -14,15 +14,6 @@
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true">
 
-        <com.jackandphantom.circularimageview.CircleImage
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:src="@drawable/sample"
-            android:id="@+id/circleImage"
-            app:add_shadow="true"
-            app:shadow_color="#eeeeee"
-            app:shadow_radius="20"
-            android:layout_centerHorizontal="true"/>
 
         <com.jackandphantom.circularprogressbar.CircleProgressbar
             android:id="@+id/circleProgressbar"
@@ -31,10 +22,46 @@
             app:cpb_progress="50"
             app:cpb_roundedCorner="true"
             app:cpb_foregroundProgressWidth="15"
-            app:cpb_foregroundProgressColor="#bee8fe"
+            app:cpb_foregroundProgressColor="#efffffff"
             app:cpb_touchEnabled="true"
             android:src="@drawable/sample"
             android:layout_centerHorizontal="true"/>
+        <com.jackandphantom.circularimageview.CircleImage
+            android:layout_width="300dp"
+            android:layout_height="300dp"
+            android:src="@drawable/text_backg"
+            android:id="@+id/circleImage"
+            app:add_shadow="true"
+            app:shadow_color="#eeeeee"
+            app:shadow_radius="20"
+            android:layout_centerHorizontal="true"/>
+        <TextView
+            android:id="@+id/textShowPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:text="No title"
+            android:layout_centerHorizontal="true"
+            android:textStyle="bold"
+            android:textColor="#343434"
+            android:textSize="23dp"/>
+        <TextView
+            android:id="@+id/textShow"
+            android:layout_below="@id/textShowPage"
+            android:layout_width="match_parent"
+            android:layout_height="180dp"
+            android:layout_marginLeft="70dp"
+            android:layout_marginRight="70dp"
+            android:text="..."
+            android:textAlignment="center"
+            android:layout_centerInParent="true"
+            android:textStyle="bold"
+            android:textColor="#34abab"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:textSize="23dp"/>
     </RelativeLayout>
     <RelativeLayout
         android:id="@+id/timeLeftContainer"
@@ -81,7 +108,7 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/recoredDate"
+            android:id="@+id/play_subjectDate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
@@ -90,8 +117,8 @@
             android:textSize="20dp"/>
 
         <TextView
-            android:id="@+id/play_subjectInfo"
-            android:layout_below="@id/recoredDate"
+            android:id="@+id/play_subjectClass"
+            android:layout_below="@id/play_subjectDate"
             android:layout_width="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_height="wrap_content"
@@ -100,6 +127,17 @@
             android:textColor="#ffffff"
             android:layout_marginTop="7dp"
             android:textSize="35dp"/>
+        <TextView
+            android:id="@+id/play_subjectName"
+            android:layout_below="@id/play_subjectClass"
+            android:layout_width="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_height="wrap_content"
+            android:text="데이터베이스"
+            android:textStyle="bold"
+            android:textColor="#ffffff"
+            android:layout_marginTop="7dp"
+            android:textSize="20dp"/>
     </RelativeLayout>
 
     <RelativeLayout
@@ -107,15 +145,16 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="25dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:background="#11ffffff"
         android:layout_centerHorizontal="true">
 
         <ImageButton
             android:id="@+id/playBtn"
-            android:layout_centerInParent="true"
             android:layout_width="70dp"
             android:layout_height="70dp"
+            android:layout_centerInParent="true"
             android:background="@drawable/play_btn"/>
 
         <ImageButton

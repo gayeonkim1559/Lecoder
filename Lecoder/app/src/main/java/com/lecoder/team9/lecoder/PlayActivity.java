@@ -1,5 +1,7 @@
 package com.lecoder.team9.lecoder;
 
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaPlayer;
@@ -7,16 +9,22 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.jackandphantom.circularimageview.CircleImage;
 import com.jackandphantom.circularprogressbar.CircleProgressbar;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,14 +36,21 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     CircleImage circleImage;
     CircleProgressbar circleProgressbar;
     ImageButton playBtn, pauseBtn, gridBtn, addBtn;
-    TextView subjectInfo,playingTime,totalTime;
+    TextView subjectDate,subjectClass,playingTime,totalTime,subjectName;
+    TextView dialogText,dialogTitle;
+    TextView showText, showTextPage;
+    ImageView dialogImage;
     RelativeLayout relativeLayout;
     MediaPlayer mediaPlayer;
     ProgressMovement progressMovement;
     String pathToLecoder;
     float progressTime;
+    Dialog dialog;
+    Intent intent;
     List<String> pictureNameList=new ArrayList<>();
     List<Integer> pictureTimeList=new ArrayList<>();
+    List<String> textNameList=new ArrayList<>();
+    List<Integer> textTimeList=new ArrayList<>();
     boolean isPlaying=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +64,26 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         addBtn = (ImageButton) findViewById(R.id.addBtn);
         playingTime= (TextView) findViewById(R.id.time_playing);
         totalTime= (TextView) findViewById(R.id.time_total);
-        subjectInfo = (TextView) findViewById(R.id.play_subjectInfo);
+        subjectDate= (TextView) findViewById(R.id.play_subjectDate);
+        subjectClass = (TextView) findViewById(R.id.play_subjectClass);
+        subjectName= (TextView)findViewById(R.id.play_subjectName);
+        showText = (TextView) findViewById(R.id.textShow);
+        showTextPage = (TextView) findViewById(R.id.textShowPage);
+        dialog=new Dialog(this);
+        dialog.setContentView(R.layout.play_dialog);
+        dialogTitle=dialog.findViewById(R.id.playTitle);
+        dialogText=dialog.findViewById(R.id.textDialog);
+        dialogImage=dialog.findViewById(R.id.imageDialog);
+
+        WindowManager.LayoutParams params = dialog.getWindow().getAttributes();
+        final int height = (int)TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 320, getResources().getDisplayMetrics());
+
+
+        params.width = WindowManager.LayoutParams.MATCH_PARENT;
+        params.height = height;
+        dialog.getWindow().setAttributes(params);
+
+        intent=getIntent();
 
         playBtn = (ImageButton) findViewById(R.id.playBtn);
         playBtn.setOnClickListener(this);
@@ -75,9 +109,21 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 pictureTimeList.add(setTime);
                 Log.e("[TEST-LIST] ",fileName+":"+setTime);
             }
+            if (fileName.substring(0,3).equals("txt")){
+                textNameList.add(fileName);
+                int min=Integer.valueOf(fileName.substring(3,5));
+                int sec=Integer.valueOf(fileName.substring(6,8));
+                int setTime=(min*60+sec)*1000;
+                textTimeList.add(setTime);
+                Log.e("[TEST-LIST] ",fileName+":"+setTime);
+            }
         }
-        //TODO 사진이름은 저장했고 이걸 시간에 맞춰서 쓰레드에 넣어 보여줘야함.
-
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.show();
+            }
+        });
         circleImage = (CircleImage) findViewById(R.id.circleImage);
         circleProgressbar = (CircleProgressbar) findViewById(R.id.circleProgressbar);
         circleProgressbar.setOnProgressbarChangeListener(new CircleProgressbar.OnProgressbarChangeListener() {
@@ -94,7 +140,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onStopTracking(CircleProgressbar circleSeekbar) {
                 mediaPlayer.seekTo((int) circleSeekbar.getProgress());
-                if (circleSeekbar.getProgress()>0&&playBtn.getVisibility()==View.GONE){
+                if (circleSeekbar.getProgress()>0&&playBtn.getVisibility()==View.INVISIBLE){
                     mediaPlayer.start();
                 }
             }
@@ -103,16 +149,24 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         progressMovement=new ProgressMovement();
         progressMovement.start();
 
+
     }
 
 
 
     public void playLecture(String fileName,String filePath) {
         try {
-
+            String playName=intent.getStringExtra("playName");
+            String playDate=intent.getStringExtra("playDate");
+            String playClass=intent.getStringExtra("playClass");
+            if (playClass.equals("")){
+                playClass="빠른녹음";
+            }
             circleProgressbar.setProgress(0);
             String uri = pathToLecoder+filePath;
-            subjectInfo.setText(fileName);
+            subjectClass.setText(playClass);
+            subjectName.setText(playName);
+            subjectDate.setText(playDate);
             mediaPlayer.reset();
             mediaPlayer.setDataSource(uri+fileName);
             mediaPlayer.prepare();
@@ -155,8 +209,9 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             SimpleDateFormat formatter = new SimpleDateFormat("mm:ss");
             String dateString;
             Bitmap bitmap;
-            int size=pictureTimeList.size();
-            int i=0;
+            int pictureListSize=pictureTimeList.size();
+            int textListSize=textTimeList.size();
+            int i=0,j=0;
             totalTime.setText(formatter.format(new Date((long) mediaPlayer.getDuration())));
             while (isPlaying){
                 try {
@@ -166,13 +221,49 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                         dateString = formatter.format(new Date((long) progressTime));
                         playingTime.setText(dateString);
                         circleProgressbar.setProgress(progressTime);
-                        if (i<size){
+                        if (i<pictureListSize){
                             if (pictureTimeList.get(i)<progressTime){
                                 bitmap = BitmapFactory.decodeFile(pathToLecoder +"/Day1/"+pictureNameList.get(i));
                                 circleImage.setImageBitmap(bitmap);
                                 Log.e("[TEST-LIST] ","플레이시간 : "+progressTime+", 사진시간 : "+pictureTimeList.get(i));
                                 Log.e("[TEST-LIST] ",i+"번째 사진파일"+pictureNameList.get(i));
+                                dialogTitle.setText("참고자료 "+i);
+                                showText.setText("");
+                                showTextPage.setText("");
+                                dialogImage.setVisibility(View.VISIBLE);
+                                dialogText.setVisibility(View.INVISIBLE);
+                                dialogImage.setImageBitmap(bitmap);
                                 i++;
+                            }
+                        }
+                        if (j<textListSize){
+                            Log.e("[TEST-LIST] 텍스트=",textTimeList.get(j)+"::"+progressTime);
+                            if (textTimeList.get(j)<progressTime){
+                                Log.e("[TEST-LIST] ",j+"번째 텍스트파일"+textTimeList.get(j));
+                                circleImage.setImageResource(R.drawable.text_backg);
+                                String[] readText=readTextFile(textNameList.get(j));
+                                String title="Page"+readText[0];
+                                String text=readText[1];
+                                Log.e("[TEST-LIST] ",title+":"+title.length());
+                                Log.e("[TEST-LIST] ",text);
+//                                showText.setEllipsize(null);
+//                                showText.setMaxLines(Integer.MAX_VALUE);
+                                if (readText!=null){
+                                    showTextPage.setText(title);
+                                    dialogTitle.setText(title);
+                                    dialogImage.setVisibility(View.INVISIBLE);
+                                    dialogText.setVisibility(View.VISIBLE);
+                                    Log.e("[TEST-LIST] ",j+"번째 텍스트파일수정");
+                                    if (text.equals("")){//페이지정보만 있는 경우
+                                        showText.setText("");
+                                        dialogText.setVisibility(View.INVISIBLE);
+                                    }else
+                                        showText.setText(text);
+//                                        showText.setEllipsize(TextUtils.TruncateAt.END);
+//                                        showText.setMaxLines(3);
+                                        dialogText.setText(text);
+                                }
+                                j++;
                             }
                         }
                         relativeLayout.postInvalidate();
@@ -182,6 +273,28 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         }
+    }
+
+    private String[] readTextFile(String fileName) {
+        String[] result= new String[2];
+        try {
+            FileInputStream stream=new FileInputStream(pathToLecoder+"/Day1/"+fileName);
+            BufferedReader reader=new BufferedReader(new InputStreamReader(stream,"euc-kr"));
+
+            String line, page,text="";
+            page=reader.readLine();//페이지정보
+            result[0]=page;
+            while ((line=reader.readLine())!=null)
+            {
+                text+=line;
+            }
+            result[1]=text;
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            result=null;
+        }
+        return result;
     }
 
     @Override
