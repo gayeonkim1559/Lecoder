@@ -26,7 +26,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     private ImageButton recordBtn, stopBtn;
 
     Fragment memoFragment = new MemoFragment();
-    Fragment drawingFragment = new MemoFragment();
+    Fragment drawingFragment = new DrawingFragment();
 
     private final int OPEN = 1;
     private final int CLOSED = 2;
@@ -57,6 +57,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
                 case R.id.memoBtn:
+                    drawingFragment_Flag = CLOSED;
                     if (memoFragment_Flag == CLOSED) {
                         Log.d("레코드 액티비티", "프래그먼트 열기 전");
                         openFragment(MEMO);
@@ -68,6 +69,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     }
                     break;
                 case R.id.drawingBtn:
+                    memoFragment_Flag = CLOSED;
                     if (drawingFragment_Flag == CLOSED) {
                         openFragment(DRAWING);
                         drawingFragment_Flag = OPEN;
@@ -104,8 +106,8 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                 break;
 
             case DRAWING:
+                transaction.setCustomAnimations(R.anim.slide_in_up, R.anim.slide_out_up);
                 transaction.replace(R.id.fragment_container, drawingFragment);
-                //transaction.setCustomAnimations(R.anim.fragment_slide_up, R.anim.fragment_slide_down);
                 transaction.commit();
                 break;
         }

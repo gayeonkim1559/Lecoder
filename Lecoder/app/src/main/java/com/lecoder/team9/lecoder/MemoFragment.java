@@ -31,7 +31,6 @@ public class MemoFragment extends Fragment implements View.OnClickListener{
 
     final private  static File RECORDED_FILE = Environment.getExternalStorageDirectory();
     String dirPath = RECORDED_FILE.getAbsolutePath() + "/Lecoder";
-
     BufferedWriter out;
 
     @Nullable

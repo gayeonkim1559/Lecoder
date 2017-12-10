@@ -35,6 +35,12 @@
             android:theme="@style/Theme.MyDialog">
         </activity>
 
+        <activity android:name=".ColorPaletteDialog"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
+        <activity android:name=".PenPaletteDialog"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
         <receiver
             android:name=".PushAlarmBroadcast"
             android:enabled="true"
