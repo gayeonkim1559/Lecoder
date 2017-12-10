@@ -161,13 +161,13 @@ public class TimeTableActivity extends AppCompatActivity {
         Log.d("[TEST] DURATION", String.valueOf(duration));
         TextView text = new TextView(TimeTableActivity.this);
 
-        text.setBackgroundColor(Color.parseColor("#000000"));
+        text.setBackgroundResource(R.drawable.border_table);
 
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(width, height_6);
         params.setMargins(left, top, 0, 0);
         text.setLayoutParams(params);
         text.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-        text.setTextColor(Color.parseColor("#FF7200"));
+        text.setTextColor(Color.parseColor("#FFEEFF"));
         text.setTextSize(13);
         text.setText(s);
         drawLayout.addView(text);
@@ -205,8 +205,6 @@ public class TimeTableActivity extends AppCompatActivity {
                     ((TextView) v).setText(timeSet[position / 7] + "시");
                     v.setBackgroundResource(R.drawable.timetable_cell);
                 } else {
-                    ((TextView) v).setGravity(Gravity.CENTER);
-                    ((TextView) v).setText("p" + position);
                     v.setBackgroundResource(R.drawable.border2);
 //                    renderTableCell(position);
 

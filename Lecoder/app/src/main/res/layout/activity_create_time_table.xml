@@ -5,6 +5,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
     <ListView
+        android:background="#cdffffff"
         android:id="@+id/timetableListView"
         android:layout_width="match_parent"
         android:layout_height="250dp">
@@ -44,26 +45,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:maxLines="1"/>
-        <TextView
-            android:id="@+id/text3"
-            android:text="요일"
-            android:layout_below="@id/text7"
-            android:textSize="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textStyle="bold"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
         <View
             android:id="@+id/line4"
-            android:layout_below="@id/text3"
+            android:layout_below="@id/editText_TimeTable"
             android:layout_width="match_parent"
             android:layout_height="1px"
             android:background="#cdcdcd"/>
         <RelativeLayout
             android:id="@+id/radioLayout"
             android:layout_below="@id/line4"
+            android:layout_marginTop="5dp"
+            android:background="@drawable/border2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
             <RadioGroup
@@ -78,8 +70,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="MON"
                     android:textColor="#cdcdcd"/>
@@ -89,8 +81,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="TUE"
                     android:textColor="#cdcdcd"/>
@@ -100,8 +92,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="WED"
                     android:textColor="#cdcdcd"/>
@@ -111,8 +103,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="THU"
                     android:textColor="#cdcdcd"/>
@@ -122,8 +114,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="FRI"
                     android:textColor="#cdcdcd"/>
@@ -133,8 +125,8 @@
                     android:layout_height="wrap_content"
                     android:button="@drawable/border2"
                     android:checked="false"
-                    android:textSize="18dp"
-                    android:layout_margin="5dp"
+                    android:textSize="20dp"
+                    android:layout_margin="8dp"
                     android:textStyle="bold"
                     android:text="SAT"
                     android:textColor="#cdcdcd"/>
@@ -153,19 +145,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:text="시작시간"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 android:textStyle="bold"/>
 
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Borderless"
                 android:id="@+id/startTimeBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="10dp"
-                android:background="@drawable/border2"
                 android:text="00:00"
                 android:textSize="20dp"/>
         </LinearLayout>
@@ -180,44 +171,35 @@
                 android:text="종료시간"
                 android:textSize="20dp"
                 android:textAlignment="center"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
                 android:textStyle="bold"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"/>
-            <Button
+            <Button style="@style/Widget.AppCompat.Button.Borderless"
                 android:id="@+id/endTimeBtn"
                 android:layout_below="@id/text5"
                 android:text="00:00"
                 android:textSize="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginRight="20dp"
-                android:background="@drawable/border2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"/>
 
         </LinearLayout>
 
-        <View
-            android:id="@+id/line5"
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/Linear2"
-            android:layout_width="match_parent"
-            android:layout_height="1px"
-            android:background="#cdcdcd"/>
 
-
-        <Button
-            android:id="@+id/saveTimeBtn"
-            android:layout_below="@id/line5"
-            android:layout_centerHorizontal="true"
-            android:text="저장하기"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginTop="5dp"
-            android:textColor="#565656"
-            android:background="#ffffffff"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+        <Button style="@style/Widget.AppCompat.Button.Borderless"
+                android:id="@+id/saveTimeBtn"
+                android:layout_below="@id/Linear2"
+                android:layout_centerHorizontal="true"
+                android:text="저장하기"
+                android:textSize="23dp"
+                android:textStyle="bold"
+                android:background="@drawable/border2"
+                android:layout_margin="20dp"
+                android:textColor="#565656"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
     </RelativeLayout>
 </LinearLayout>
