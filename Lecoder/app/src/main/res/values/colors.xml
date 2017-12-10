@@ -9,4 +9,5 @@
     <color name="iconStlye4">#e101ff</color>
     <color name="iconStlye5">#e101ff</color>
     <color name="timetable_cell">#cccccc</color>
+    <color name="dialog_back">#abffffff</color>
 </resources>
