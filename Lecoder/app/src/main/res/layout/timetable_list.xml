@@ -23,7 +23,7 @@
         android:layout_width="1px"
         android:layout_height="match_parent"/>
     <TextView
-        android:id="@+id/timeTableName"
+        android:id="@+id/gridTextTitle"
         android:text="모바일소프트웨어"
         android:layout_gravity="center_vertical"
         android:layout_margin="10dp"
@@ -37,7 +37,7 @@
         android:layout_width="1px"
         android:layout_height="match_parent"/>
     <TextView
-        android:id="@+id/timeTable_startTime"
+        android:id="@+id/gridItemTitle"
         android:layout_width="0dp"
         android:layout_gravity="center_vertical"
         android:gravity="center"

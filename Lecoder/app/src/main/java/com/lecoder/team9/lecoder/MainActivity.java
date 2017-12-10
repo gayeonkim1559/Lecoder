@@ -237,6 +237,9 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(getApplicationContext(),"리스트 구분 : "+(isLectureList?"강의녹음":"빠른녹음")+"\n클릭한 아이템 : "+mItems.get(position).recordName.toString(),Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(getApplicationContext(),PlayActivity.class);
+                    intent.putExtra("playDate",mItems.get(position).recordDate);
+                    intent.putExtra("playName",mItems.get(position).recordName);
+                    intent.putExtra("playClass",mItems.get(position).recordClass);
                     startActivity(intent);
                 }
             });
@@ -251,7 +254,7 @@ public class MainActivity extends AppCompatActivity {
             public TextView recordDate,recordName,recordDuration,recordClass;
             public MyViewHolder(View itemView) {
                 super(itemView);
-                recordDate =itemView.findViewById(R.id.recordDate);
+                recordDate =itemView.findViewById(R.id.play_subjectDate);
                 recordDuration=itemView.findViewById(R.id.recordDuration);
                 recordName=itemView.findViewById(R.id.recordName);
                 if (isLectureList){

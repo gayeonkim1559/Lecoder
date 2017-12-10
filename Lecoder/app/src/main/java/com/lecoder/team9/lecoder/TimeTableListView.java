@@ -16,8 +16,8 @@ public class TimeTableListView extends LinearLayout {
         LayoutInflater inflater= (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.timetable_list,this,true);
         classDay=findViewById(R.id.timeTableDay);
-        className=findViewById(R.id.timeTableName);
-        classStartTime=findViewById(R.id.timeTable_startTime);
+        className=findViewById(R.id.gridTextTitle);
+        classStartTime=findViewById(R.id.gridItemTitle);
         classEndTime=findViewById(R.id.timeTable_endTime);
     }
 

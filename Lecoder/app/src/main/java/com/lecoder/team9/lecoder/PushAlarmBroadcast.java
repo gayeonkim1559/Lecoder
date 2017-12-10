@@ -19,6 +19,7 @@ public class PushAlarmBroadcast extends BroadcastReceiver {
         String className=intent.getStringExtra("className");
         long diffCurrentAndAlarm=intent.getLongExtra("diff",0);
         Log.e("[test] diff:", String.valueOf(diffCurrentAndAlarm));
+        Log.e("[test] Called Time : ", "["+className+"]"+String.valueOf(System.currentTimeMillis()));
         if (diffCurrentAndAlarm<0){
             NotificationManager notificationManager= (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
             PendingIntent pendingIntent=PendingIntent.getActivity(context,0,new Intent(context,PlayActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
@@ -30,7 +31,6 @@ public class PushAlarmBroadcast extends BroadcastReceiver {
             builder.setDefaults(Notification.DEFAULT_VIBRATE);
             builder.setContentIntent(pendingIntent);
             builder.setAutoCancel(true);
-            Log.e("[test] Called Time : ", "["+className+"]"+String.valueOf(System.currentTimeMillis()));
 
             builder.addAction(R.drawable.record1, "녹음시작", pendingIntent);
             builder.setPriority(Notification.PRIORITY_MAX);
