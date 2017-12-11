@@ -55,6 +55,8 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     String currentTime,pictureTakenTime;
 
     private boolean isRecording = false;
+    private boolean isPausing = false;
+    
     UpdateTimer updateTimer;
     ImageView cameraPicture;
     private String recordType, recordClass;
@@ -160,6 +162,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     isRecording = false;
                     Toast.makeText(getApplicationContext(), "녹음 저장을 완료하였습니다.", Toast.LENGTH_SHORT).show();
                     updateRecentList();
+                    finish();
                 } else {
                     Toast.makeText(getApplicationContext(), "먼저 녹음을 진행하세요.", Toast.LENGTH_SHORT).show();
                 }
