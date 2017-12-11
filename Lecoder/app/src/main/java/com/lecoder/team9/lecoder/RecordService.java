@@ -10,10 +10,10 @@ import android.util.Log;
 import java.io.File;
 
 public class RecordService extends Service {
-    private static final String TAG = "RecordService";
     final private  static File RECORDED_FILE = Environment.getExternalStorageDirectory();
-    String savePath,fileName;
+    private boolean isFirst = true;
 
+    String savePath,fileName;
     MediaRecorder recorder;
 
     public RecordService() {
@@ -21,55 +21,51 @@ public class RecordService extends Service {
 
     @Override
     public void onCreate() {
-        Log.d(TAG, "서비스 호출되었습니다!!!!!!!");
+        Log.d("레코드 서비스", "onCreat() 메소드");
         super.onCreate();
-        //filename = RECORDED_FILE.getAbsolutePath()+"/Lecoder/test.mp4";
     }
 
     @Override
     public IBinder onBind(Intent intent) {
         // TODO: Return the communication channel to the service.
+        Log.d("레코드 서비스", "onBind() 메소드");
         throw new UnsupportedOperationException("Not yet implemented");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "서비스 호출되었습니다222222!!!!!!!");
-        savePath=intent.getStringExtra("savePath");
-        fileName="recorded.mp4";
-        if (intent == null) {
-            return Service.START_STICKY;
-        }
-        else {
-            startRecording();
-        }
+        Log.d("레코드 서비스", "onStartCommand() 메소드");
 
+            if (intent == null) {
+                return Service.START_STICKY;
+            }
+            else {
+                savePath=intent.getStringExtra("savePath");
+                fileName = intent.getExtras().getInt("fileName") + ".mp4";
+                startRecording();
+            }
         return super.onStartCommand(intent, flags, startId);
     }
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "서비스 종료!!!!!!!!!!!!");
+        Log.d("레코드 서비스", "onDestroy() 메소드");
 
         stopRecording();
         super.onDestroy();
     }
 
     public void startRecording() {
-        Log.d("RecordService","StartRecording!!!!!!!!!!!!!!!!!");
+        Log.d("레코드 서비스", "startRecording() 메소드");
+
         String dirPath = RECORDED_FILE.getAbsolutePath() + "/Lecoder";
 
         String filePath= dirPath +"/"+savePath+"/"+fileName;
         File file = new File(dirPath +"/"+savePath);
+
         if (!file.exists())
             file.mkdirs();
-//        String filePath = dirPath +"/sibal.mp4";
-//        Log.d("RecordService",aa);
-        Log.d("RecordServicaaaaafasde",filePath);
 
-        //String filePath = RECORDED_FILE.getAbsolutePath() +  File.separator  + Environment.DIRECTORY_DCIM + File.separator + "test.mp4";
-
-        Log.d(TAG, filePath);
         if (recorder == null)
             recorder = new MediaRecorder();
         else
