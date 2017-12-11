@@ -16,7 +16,7 @@
         <RelativeLayout
             android:id="@+id/pageContainer"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="400dp"
             android:layout_below="@id/btnSet"
             android:layout_marginBottom="20dp"
             android:layout_marginLeft="20dp"
@@ -35,6 +35,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginRight="5dp"
                     android:layout_marginTop="5dp"
+                    android:textColor="#ffffff"
                     android:text="Page :"
                     android:textSize="23dp" />
 
@@ -43,6 +44,7 @@
                     android:layout_width="90dp"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/pageText"
+                    android:textColor="#ffffff"
                     android:inputType="number" />
             </RelativeLayout>
 

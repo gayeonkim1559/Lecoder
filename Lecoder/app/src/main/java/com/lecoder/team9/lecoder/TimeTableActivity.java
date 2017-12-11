@@ -72,7 +72,7 @@ public class TimeTableActivity extends AppCompatActivity {
             calendar.set(Calendar.MILLISECOND,0);
             Log.e("[test] PUSH MSG : ",item.className);
 
-            long diff = Calendar.getInstance().getTimeInMillis() - calendar.getTimeInMillis();
+            long diff = System.currentTimeMillis() - calendar.getTimeInMillis();
             intent.putExtra("className",item.className);
             intent.putExtra("diff",diff);
             PendingIntent sender=PendingIntent.getBroadcast(TimeTableActivity.this,index,intent,PendingIntent.FLAG_UPDATE_CURRENT);

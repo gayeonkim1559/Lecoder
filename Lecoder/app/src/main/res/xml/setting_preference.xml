@@ -8,22 +8,15 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="setting_general"
         android:title="일반 설정">
-        <EditTextPreference
-            android:defaultValue="@string/app_name"
-            android:key="userName"
-            android:maxLines="1"
-            android:selectAllOnFocus="true"
-            android:singleLine="true"
-            android:title="사용자 이름 설정" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="pushAlarm"
             android:summary="강의시간마다 알려주는 푸쉬알람을 보냅니다."
             android:switchTextOff="수신거부"
             android:switchTextOn="수신"
             android:title="푸쉬알람" />
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="sttService"
             android:summary="음성을 텍스트로 변환시키는 기술을 적용시킵니다. 정확도는 다소 떨어질 수 있습니다."
             android:switchTextOff="사용안함"
@@ -36,7 +29,7 @@
         android:key="setting_activity_pushalarm"
         android:title="저장 설정">
         <SwitchPreference
-            android:defaultValue="true"
+            android:defaultValue="false"
             android:key="autoRecord"
             android:summary="핸드폰이 꺼진 상태에서 시간표에 따라 자동으로 녹음이 실행됩니다."
             android:switchTextOff="사용안함"
@@ -57,6 +50,7 @@
             android:entries="@array/saveName"
             android:entryValues="@array/saveName_value"
             android:key="userNameOpen"
+            android:dependency="autoRecord"
             android:negativeButtonText="@null"
             android:positiveButtonText="@null"
             android:title="저장 번호 종류" />
@@ -64,31 +58,12 @@
 
     <PreferenceCategory
         xmlns:android="http://schemas.android.com/apk/res/android"
-        android:key="setting_activity_pushalarm"
-        android:title="시간표 설정">
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="setting_activity_autoalarm"
-            android:summary="어플리케이션 알림이 종료된 경우 자동으로 재실행"
-            android:title="자동알림"/>
-        <CheckBoxPreference
-            android:defaultValue="true"
-            android:key="setting_activity_alarm_reiceive"
-            android:title="알림설정"/>
-    </PreferenceCategory>
-
-    <PreferenceCategory
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:key="setting_activity_account"
-        android:title="어플리케이션 정보">
+        android:title="데이터 관리">
         <Preference
-            android:key="setting_activity_id"
+            android:key="app_data_reset"
             android:selectable="true"
-            android:title="어플케이션 이름"/>
-        <Preference
-            android:key="setting_activity_app_version"
-            android:selectable="true"
-            android:title="어플리케이션 버전"/>
+            android:title="데이터 초기화"/>
     </PreferenceCategory>
 
 </PreferenceScreen>

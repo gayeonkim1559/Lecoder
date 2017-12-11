@@ -31,6 +31,7 @@ android:layout_height="match_parent">
                 android:layout_marginTop="5dp"
                 android:text="Page :"
                 android:textSize="23dp"
+                android:textColor="#ffffff"
                 android:layout_marginRight="5dp"/>
 
             <EditText
@@ -38,6 +39,7 @@ android:layout_height="match_parent">
                 android:layout_toRightOf="@+id/pageText"
                 android:layout_width="90dp"
                 android:inputType="number"
+                android:textColor="#ffffff"
                 android:layout_height="wrap_content" />
 
             <EditText
