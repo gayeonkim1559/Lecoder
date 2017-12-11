@@ -35,11 +35,21 @@
             android:theme="@style/Theme.MyDialog">
         </activity>
 
+        <activity android:name=".ColorPaletteDialog"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
+        <activity android:name=".PenPaletteDialog"
+            android:theme="@android:style/Theme.Dialog"></activity>
+
         <receiver
             android:name=".PushAlarmBroadcast"
             android:enabled="true"
             android:exported="true">
         </receiver>
+
+        <service android:name=".RecordService"
+            android:enabled="true"
+            android:exported="true"></service>
     </application>
 
 </manifest>

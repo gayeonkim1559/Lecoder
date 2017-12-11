@@ -3,34 +3,41 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#BFAEB8">
+              android:padding="1dp"
+              android:background="@drawable/recordborder">
 
     <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/memoBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:layout_margin="10dp"
+        android:layout_height="60dp"
+        android:textAlignment="center"
+        android:padding="2dp"
+        android:textSize="15dp"
+        android:layout_margin="1dp"
         android:layout_weight="1"
         android:text="Memo"/>
 
     <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/drawingBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_weight="1"
-        android:padding="10dp"
-        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:padding="2dp"
+        android:textSize="15dp"
+        android:layout_margin="1dp"
         android:layout_toRightOf="@+id/memoBtn"
         android:text="Drawing"/>
 
     <com.lecoder.team9.lecoder.RecordActivity_BitmapBtn
         android:id="@+id/cameraBtn"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_weight="1"
-        android:padding="10dp"
-        android:layout_margin="10dp"
+        android:textAlignment="center"
+        android:padding="2dp"
+        android:textSize="15dp"
+        android:layout_margin="1dp"
         android:layout_toRightOf="@+id/drawingBtn"
         android:text="Camera"/>
 

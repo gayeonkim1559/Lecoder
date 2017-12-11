@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
-import android.support.annotation.IntDef;
 import android.util.Log;
 
 import java.io.File;
@@ -13,8 +12,8 @@ import java.io.File;
 public class RecordService extends Service {
     private static final String TAG = "RecordService";
     final private  static File RECORDED_FILE = Environment.getExternalStorageDirectory();
+    String savePath,fileName;
 
-    String filename;
     MediaRecorder recorder;
 
     public RecordService() {
@@ -22,6 +21,7 @@ public class RecordService extends Service {
 
     @Override
     public void onCreate() {
+        Log.d(TAG, "서비스 호출되었습니다!!!!!!!");
         super.onCreate();
         //filename = RECORDED_FILE.getAbsolutePath()+"/Lecoder/test.mp4";
     }
@@ -34,8 +34,9 @@ public class RecordService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Log.d(TAG, "Start Recording");
-
+        Log.d(TAG, "서비스 호출되었습니다222222!!!!!!!");
+        savePath=intent.getStringExtra("savePath");
+        fileName="recorded.mp4";
         if (intent == null) {
             return Service.START_STICKY;
         }
@@ -48,7 +49,7 @@ public class RecordService extends Service {
 
     @Override
     public void onDestroy() {
-        Log.d(TAG, "Stop Recording");
+        Log.d(TAG, "서비스 종료!!!!!!!!!!!!");
 
         stopRecording();
         super.onDestroy();
@@ -58,13 +59,17 @@ public class RecordService extends Service {
         Log.d("RecordService","StartRecording!!!!!!!!!!!!!!!!!");
         String dirPath = RECORDED_FILE.getAbsolutePath() + "/Lecoder";
 
-        File file = new File(dirPath);
+        String filePath= dirPath +"/"+savePath+"/"+fileName;
+        File file = new File(dirPath +"/"+savePath);
         if (!file.exists())
-            file.mkdir();
+            file.mkdirs();
+//        String filePath = dirPath +"/sibal.mp4";
+//        Log.d("RecordService",aa);
+        Log.d("RecordServicaaaaafasde",filePath);
 
-        String filePath = dirPath + "/test.mp4";
-//        filename = RECORDED_FILE.getAbsolutePath() +  File.separator  + Environment.DIRECTORY_DCIM + File.separator + "test.mp4";
+        //String filePath = RECORDED_FILE.getAbsolutePath() +  File.separator  + Environment.DIRECTORY_DCIM + File.separator + "test.mp4";
 
+        Log.d(TAG, filePath);
         if (recorder == null)
             recorder = new MediaRecorder();
         else
@@ -78,6 +83,7 @@ public class RecordService extends Service {
         try {
             recorder.prepare();
             recorder.start();
+
         }catch (Exception e) {
             Log.e("Recording Error", "녹음오류");
         }
@@ -94,4 +100,5 @@ public class RecordService extends Service {
         recorder.release();
         recorder = null;
     }
+
 }

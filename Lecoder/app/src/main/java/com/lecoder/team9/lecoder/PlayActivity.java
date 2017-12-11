@@ -75,7 +75,12 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play);
         mediaPlayer = new MediaPlayer();
-        pathToLecoder=Environment.getExternalStorageDirectory().getPath()+"/LecordingTest";//LecordingTest -> Lecorder
+        intent=getIntent();
+        String playType=intent.getStringExtra("playType");
+        String playName=intent.getStringExtra("playName");
+        String playClass=intent.getStringExtra("playClass");
+        pathToLecoder=Environment.getExternalStorageDirectory().getPath()+"/Lecoder/"+playType+"/"+playClass+"/"+playName;
+//        pathToLecoder=Environment.getExternalStorageDirectory().getPath()+"/LecordingTest";//LecordingTest -> Lecorder
 
         relativeLayout= (RelativeLayout) findViewById(R.id.playActivityContainer);
         gridBtn = (ImageButton) findViewById(R.id.gridBtn);
@@ -133,7 +138,6 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
 
-        intent=getIntent();
         gridBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,7 +153,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
 
         formatter = new SimpleDateFormat("mm:ss");
 
-        File directory=new File(pathToLecoder+"/Day1");
+        File directory=new File(pathToLecoder);
         File[] files=directory.listFiles();
         Arrays.sort(files, new Comparator<File>() {
             @Override
@@ -168,7 +172,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 int setTime=(min*60+sec)*1000;
                 pictureTimeList.add(setTime);
                 Log.e("[TEST-LIST] ",fileName+":"+setTime);
-                Bitmap bitmap = BitmapFactory.decodeFile(pathToLecoder + "/Day1/" + fileName);
+                Bitmap bitmap = BitmapFactory.decodeFile(pathToLecoder+"/" + fileName);
                 gridListItems.add(new GridListItem(time,bitmap,"참고자료"+i));
             }
             if (fileName.substring(0,3).equals("txt")){
@@ -212,7 +216,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 }
             }
         });
-        playLecture("/sample123.mp3","/Day1");// Day1 -> 과목이름
+        playLecture("/recorded.mp4",pathToLecoder);// Day1 -> 과목이름
         progressMovement=new ProgressMovement();
         progressMovement.start();
 
@@ -270,7 +274,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 timeText=textTimeList.get(prevTextIndex);
             }
             if (timePicture>timeText){
-                Bitmap bitmap = BitmapFactory.decodeFile(pathToLecoder + "/Day1/" + pictureNameList.get(prevPhotoIndex));
+                Bitmap bitmap = BitmapFactory.decodeFile(pathToLecoder+"/"+ pictureNameList.get(prevPhotoIndex));
                 circleImage.setImageBitmap(bitmap);
                 dialogTitle.setText("참고자료 "+ prevPhotoIndex);
                 showText.setText("");
@@ -313,12 +317,11 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                 playClass="빠른녹음";
             }
             circleProgressbar.setProgress(0);
-            String uri = pathToLecoder+filePath;
             subjectClass.setText(playClass);
             subjectName.setText(playName);
             subjectDate.setText(playDate);
             mediaPlayer.reset();
-            mediaPlayer.setDataSource(uri+fileName);
+            mediaPlayer.setDataSource(filePath+fileName);
             mediaPlayer.prepare();
             circleProgressbar.setMaxProgress(mediaPlayer.getDuration());
             mediaPlayer.start();
@@ -372,7 +375,7 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
                         circleProgressbar.setProgress(progressTime);
                         if (indexPhoto <pictureListSize){
                             if (pictureTimeList.get(indexPhoto)<progressTime){
-                                bitmap = BitmapFactory.decodeFile(pathToLecoder +"/Day1/"+pictureNameList.get(indexPhoto));
+                                bitmap = BitmapFactory.decodeFile(pathToLecoder+"/"+pictureNameList.get(indexPhoto));
                                 circleImage.setImageBitmap(bitmap);
                                 Log.e("[TEST-LIST] ","플레이시간 : "+progressTime+", 사진시간 : "+pictureTimeList.get(indexPhoto));
                                 Log.e("[TEST-LIST] ", indexPhoto +"번째 사진파일"+pictureNameList.get(indexPhoto));
@@ -423,8 +426,8 @@ public class PlayActivity extends AppCompatActivity implements View.OnClickListe
     private String[] readTextFile(String fileName) {
         String[] result= new String[2];
         try {
-            FileInputStream stream=new FileInputStream(pathToLecoder+"/Day1/"+fileName);
-            BufferedReader reader=new BufferedReader(new InputStreamReader(stream,"euc-kr"));
+            FileInputStream stream=new FileInputStream(pathToLecoder+"/"+fileName);
+            BufferedReader reader=new BufferedReader(new InputStreamReader(stream,"MS949"));
 
             String line, page,text="";
             page=reader.readLine();//페이지정보
