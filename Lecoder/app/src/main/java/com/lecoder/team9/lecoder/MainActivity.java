@@ -35,13 +35,16 @@ public class MainActivity extends AppCompatActivity {
     boolean isClickedPlusBtn=false;
     Context mContext;
     RecyclerView recyclerViewFast,recyclerViewLecture;
-    MyAdapter adapter;
+    MyAdapter adapter,adapterLecture;
     RecyclerView.LayoutManager layoutManager,layoutManager2;
     Toolbar toolbar;
     String key = "Key";
-    SharedPreferences shref;
+    SharedPreferences shref,fastShref,lecShref;
+    SharedPreferences.Editor editor;
     CharSequence itemList[];
     ArrayList<TimeTableItem> itemArrayList;
+    ArrayList<RecordListItem> fastItem;
+    ArrayList<RecordListItem> lectureItem;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -110,35 +113,41 @@ public class MainActivity extends AppCompatActivity {
         //----팝업 버튼 애니메이션 동작
 
         //----빠른녹음 샘플 리스트
-        ArrayList fastItem=new ArrayList<>();
-        fastItem.add(new RecordListItem("느린녹음001","2017/03/14","24:11"));
-        fastItem.add(new RecordListItem("빠른녹음001","2017/08/10","09:31"));
-        fastItem.add(new RecordListItem("빠른녹음002","2017/06/07","00:36"));
+        shref = getApplicationContext().getSharedPreferences("table", Context.MODE_PRIVATE);
+        fastShref=getApplicationContext().getSharedPreferences("fastList", Context.MODE_PRIVATE);;
+        lecShref=getApplicationContext().getSharedPreferences("lectureList", Context.MODE_PRIVATE);
+        fastItem=getRecordArrayPref(fastShref,"fastList");
+        lectureItem=getRecordArrayPref(lecShref,"lectureList");
+//        fastItem.add(new RecordListItem("느린녹음001","2017/03/14","24:11"));
+//        fastItem.add(new RecordListItem("빠른녹음001","2017/08/10","09:31"));
+//        fastItem.add(new RecordListItem("빠른녹음002","2017/06/07","00:36"));
 
         layoutManager=new LinearLayoutManager(this);
         recyclerViewFast.setLayoutManager(layoutManager);
-        adapter=new MyAdapter(fastItem,mContext,false);
-        recyclerViewFast.setAdapter(adapter);
+        if (fastItem!=null){
+            adapter=new MyAdapter(fastItem,mContext,false);
+            recyclerViewFast.setAdapter(adapter);
+        }
         //----강의녹음 샘플 리스트
-        ArrayList lectureItem=new ArrayList();
-        lectureItem.add(new RecordListItem("002","2017/11/21","33:12","모바일소프트웨어공학"));
-        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
-        lectureItem.add(new RecordListItem("001","2017/10/01","53:04","기초글쓰기"));
-        lectureItem.add(new RecordListItem("002","2017/11/21","33:12","모바일소프트웨어공학"));
-        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
-        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
-        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
-        lectureItem.add(new RecordListItem("001","2017/10/01","53:04","끝"));
+//        lectureItem.add(new RecordListItem("002","2017/11/21","33:12","모바일소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("001","2017/10/01","53:04","기초글쓰기"));
+//        lectureItem.add(new RecordListItem("002","2017/11/21","33:12","모바일소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("012","2017/06/26","12:55","소프트웨어공학"));
+//        lectureItem.add(new RecordListItem("001","2017/10/01","53:04","끝"));
 
         layoutManager2=new LinearLayoutManager(this);
         recyclerViewLecture.setLayoutManager(layoutManager2);
-        adapter=new MyAdapter(lectureItem,mContext,true);
-        recyclerViewLecture.setAdapter(adapter);
-
-
+        if (lectureItem!=null){
+            adapterLecture=new MyAdapter(lectureItem,mContext,true);
+            recyclerViewLecture.setAdapter(adapterLecture);
+        }
 
         //강의버튼 - 목록
-        shref = getApplicationContext().getSharedPreferences("table", Context.MODE_PRIVATE);
+        setItemArrayPref(fastItem,"fastList");
+        setItemArrayPref(lectureItem,"lectureList");
     }
 
     private void showLectureList() {
@@ -150,7 +159,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialogInterface, int i) {
                 Intent intent=new Intent(getApplicationContext(),RecordActivity.class);
                 intent.putExtra("recordType","Lecture");
-                intent.putExtra("recordClass",itemList[i].toString());
+                intent.putExtra("recordClass",itemArrayList.get(i).className);
                 Toast.makeText(MainActivity.this, itemList[i].toString(), Toast.LENGTH_SHORT).show();
                 dialogInterface.dismiss();
                 startActivity(intent);
@@ -177,6 +186,19 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         //강의목록 읽어오기
+        fastItem=getRecordArrayPref(fastShref,"fastList");
+        lectureItem=getRecordArrayPref(lecShref,"lectureList");
+        if (fastItem!=null){
+            adapter=new MyAdapter(fastItem,mContext,false);
+            recyclerViewFast.setAdapter(adapter);
+            adapter.notifyDataSetChanged();
+        }
+        if (lectureItem!=null){
+            adapterLecture=new MyAdapter(lectureItem,mContext,true);
+            recyclerViewLecture.setAdapter(adapterLecture);
+            adapterLecture.notifyDataSetChanged();
+        }
+
         itemArrayList=getItemArrayPref();
         if (itemArrayList!=null){
             itemList=new CharSequence[itemArrayList.size()];
@@ -198,7 +220,21 @@ public class MainActivity extends AppCompatActivity {
         String response=shref.getString(key , "");
         return gson.fromJson(response,new TypeToken<List<TimeTableItem>>(){}.getType());
     }
+    public ArrayList<RecordListItem> getRecordArrayPref(SharedPreferences shref,String key) {
+        Gson gson = new Gson();
+        String response=shref.getString(key , "");
+        return gson.fromJson(response,new TypeToken<List<RecordListItem>>(){}.getType());
+    }
 
+    public void setItemArrayPref(ArrayList<RecordListItem> values,String key) {
+        Gson gson = new Gson();
+        String json = gson.toJson(values);
+
+        editor = shref.edit();
+        editor.remove(key).commit();
+        editor.putString(key, json);
+        editor.commit();
+    }
     class MyAdapter extends RecyclerView.Adapter{
         private Context context;
         private ArrayList<RecordListItem> mItems;
@@ -225,6 +261,7 @@ public class MainActivity extends AppCompatActivity {
             aHolder.recordDuration.setText(mItems.get(position).recordDuration);
             aHolder.recordDate.setText(mItems.get(position).recordDate);
             if (isLectureList){
+                aHolder.recordName.setText(mItems.get(position).tag);
                 aHolder.recordClass.setText(mItems.get(position).recordClass);
                 aHolder.recordClass.setVisibility(View.VISIBLE);
                 TextView recordClassText= v.findViewById(R.id.recordName);
@@ -237,6 +274,11 @@ public class MainActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     Toast.makeText(getApplicationContext(),"리스트 구분 : "+(isLectureList?"강의녹음":"빠른녹음")+"\n클릭한 아이템 : "+mItems.get(position).recordName.toString(),Toast.LENGTH_SHORT).show();
                     Intent intent=new Intent(getApplicationContext(),PlayActivity.class);
+                    if (isLectureList){
+                        intent.putExtra("playType","Lecture");
+                    }else {
+                        intent.putExtra("playType","빠른녹음");
+                    }
                     intent.putExtra("playDate",mItems.get(position).recordDate);
                     intent.putExtra("playName",mItems.get(position).recordName);
                     intent.putExtra("playClass",mItems.get(position).recordClass);

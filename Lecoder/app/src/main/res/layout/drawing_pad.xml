@@ -6,41 +6,42 @@
     <LinearLayout
         android:id="@+id/toolsLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
         android:background="#ffffffff"
         android:orientation="horizontal"
+        android:gravity="center_horizontal"
         android:padding="5dp">
 
         <Button
             android:id="@+id/colorBtn"
-            android:layout_width="wrap_content"
+            android:background="@drawable/normalbutton"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:drawablePadding="2dp"
-            android:drawableTop="@drawable/colorpalette"
+            android:textSize="13dp"
             android:text="Color"/>
 
         <Button
             android:id="@+id/penBtn"
-            android:layout_width="wrap_content"
+            android:background="@drawable/normalbutton"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:drawablePadding="2dp"
-            android:drawableTop="@drawable/penpalette"
+            android:textSize="13dp"
             android:text="Pen"/>
 
         <Button
             android:id="@+id/eraserBtn"
-            android:layout_width="wrap_content"
+            android:background="@drawable/normalbutton"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:drawablePadding="2dp"
-            android:drawableTop="@drawable/eraser"
+            android:textSize="13dp"
             android:text="Eraser"/>
 
         <Button
             android:id="@+id/undoBtn"
-            android:layout_width="wrap_content"
+            android:background="@drawable/normalbutton"
+            android:layout_width="80dp"
             android:layout_height="wrap_content"
-            android:drawablePadding="2dp"
-            android:drawableTop="@drawable/undo"
+            android:textSize="13dp"
             android:text="Undo"/>
     </LinearLayout>
 

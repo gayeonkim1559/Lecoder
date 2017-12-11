@@ -1,5 +1,6 @@
 package com.lecoder.team9.lecoder;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -21,7 +22,6 @@ import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.OutputStream;
 
 /**
  * Created by GAYEON on 2017-11-23.
@@ -31,6 +31,7 @@ public class DrawingFragment extends Fragment implements View.OnClickListener{
     EditText pageNum;
     ImageButton storeBtn;
 
+    TextView currentTime;
     PaintBoard board;
     Button colorBtn, penBtn, eraserBtn, undoBtn;
 
@@ -46,7 +47,7 @@ public class DrawingFragment extends Fragment implements View.OnClickListener{
     int oldColor;
     int oldSize;
     boolean eraserSelected = false;
-
+    String savePath,fileName;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class DrawingFragment extends Fragment implements View.OnClickListener{
 
         pageNum = view.findViewById(R.id.pageInput);
         storeBtn = view.findViewById(R.id.saveBtn);
+        currentTime=view.findViewById(R.id.currentTime);
         storeBtn.setOnClickListener(this);
 
         LinearLayout toolsLayout = view.findViewById(R.id.toolsLayout);
@@ -190,7 +192,11 @@ public class DrawingFragment extends Fragment implements View.OnClickListener{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.saveBtn:
-                storeDrawing(view);
+                if (((RecordActivity)getActivity()).isRecording()){
+                    storeDrawing(view);
+                }else {
+                    Toast.makeText(getContext(),"녹음 버튼을 눌러주세요.",Toast.LENGTH_SHORT).show();
+                }
                 break;
         }
     }
@@ -211,18 +217,27 @@ public class DrawingFragment extends Fragment implements View.OnClickListener{
 
     public void storeDrawing(View view) {
         try {
-            File file = new File(dirPath+"drawing.png");
+            File file = new File(dirPath+"/"+savePath+"/"+fileName);
             view.draw(board.mCanvas);
             FileOutputStream fos = new FileOutputStream(file);
             if (fos != null) {
                 Log.d("드로잉 프레그먼트", "저장 전");
-                board.mBitmap.compress(Bitmap.CompressFormat.PNG, 100, fos);
+                board.mBitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos);
                 Toast.makeText(getContext(), "저장이 완료되었습니다", Toast.LENGTH_SHORT).show();
                 fos.flush();
                 fos.close();
+                currentTime.setText(((RecordActivity)getActivity()).getSaveTime());
             }
         } catch(Exception e) {
             Log.e("드로잉프레그먼트", "저장오류");
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        savePath=((RecordActivity)getActivity()).pathToSave();
+        String name=((RecordActivity)getActivity()).getSaveTime().replace(":","m");
+        fileName="img"+name+".jpg";
     }
 }
