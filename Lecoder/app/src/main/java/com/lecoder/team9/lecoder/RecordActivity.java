@@ -157,12 +157,6 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     currentTime = String.valueOf(formatter1.format(new Date(System.currentTimeMillis())));
                     path = pathToSave();
 
-//                    Intent intent = new Intent(this, RecordService.class);
-//                    intent.putExtra("savePath", path);
-//                    intent.putExtra("fileName", tempFileNum);
-//                    tempFileNum++;
-//                    startService(intent);
-
                     Toast.makeText(getApplicationContext(), "녹음을 시작합니다.", Toast.LENGTH_SHORT).show();
                 }
 
@@ -172,6 +166,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     recordBtn.setBackgroundResource(R.drawable.record_btn);
 
                     Intent pause = new Intent(this, RecordService.class);
+                    pause.putExtra("isRecording", true);
                     stopService(pause);
                 }
 
@@ -183,6 +178,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     Intent intent = new Intent(this, RecordService.class);
                     intent.putExtra("savePath", path);
                     intent.putExtra("fileName", tempFileNum);
+                    intent.putExtra("isRecording", true);
                     tempFileNum++;
                     startService(intent);
                 }
