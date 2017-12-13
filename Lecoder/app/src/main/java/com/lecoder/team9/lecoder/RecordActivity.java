@@ -61,7 +61,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
 
     private boolean isFirst = true;
     private boolean isRecording = false;
-
+  
     UpdateTimer updateTimer;
     ImageView cameraPicture;
     private String recordType, recordClass;
