@@ -1,5 +1,6 @@
 package com.lecoder.team9.lecoder;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -53,10 +55,13 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     private int memoFragment_Flag = CLOSED;
     private int drawingFragment_Flag = CLOSED;
     String currentTime,pictureTakenTime;
+    String path;
+    int tempFileNum = 1;
+    public static int order = 0;
 
+    private boolean isFirst = true;
     private boolean isRecording = false;
-    private boolean isPausing = false;
-    
+  
     UpdateTimer updateTimer;
     ImageView cameraPicture;
     private String recordType, recordClass;
@@ -65,6 +70,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     ArrayList<RecordListItem> fastArrayList;
     ArrayList<RecordListItem> lectureArrayList;
     FrameLayout frameLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +109,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
         if (lectureArrayList == null) {
             lectureArrayList = new ArrayList<>();
         }
+
         //TODO fastArrayList,lectureArrayList에 갱신해야함... 갱신한걸 메인에서 또 갱신해야함...
     }
 
@@ -120,6 +127,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     memoFragment_Flag = CLOSED;
                 }
                 break;
+
             case R.id.drawingBtn:
                 memoFragment_Flag = CLOSED;
                 if (drawingFragment_Flag == CLOSED) {
@@ -129,10 +137,11 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     closeFragment(DRAWING);
                     drawingFragment_Flag = CLOSED;
                 }
-                break;
+
+
             case R.id.cameraBtn:
 
-                if (!isRecording) {
+                if (isFirst) {
                     Toast.makeText(getApplicationContext(), "녹음을 먼저 시작해주세요.", Toast.LENGTH_SHORT).show();
                 } else {
                     Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -140,23 +149,49 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     startActivityForResult(intentCamera, PICK_FROM_CAMERA);
                 }
                 break;
+
             case R.id.recordBtn:
-                if (!isRecording) {
-                    Intent intent = new Intent(this, RecordService.class);
+                //처음에 녹음 할 때
+                if (isFirst) {
+                    isFirst = false;
+                    recordBtn.setBackgroundResource(R.drawable.pause_btn_black);
+
                     SimpleDateFormat formatter1 = new SimpleDateFormat("yyyyMMddHHmmss");
                     currentTime = String.valueOf(formatter1.format(new Date(System.currentTimeMillis())));
-                    String path = pathToSave();
-                    intent.putExtra("savePath", path);
-                    startService(intent);
-                    Toast.makeText(getApplicationContext(), "녹음을 시작합니다.", Toast.LENGTH_SHORT).show();
-                } else {
-                    Toast.makeText(getApplicationContext(), "이미 녹음이 진행중입니다.", Toast.LENGTH_SHORT).show();
-                }
-                isRecording = true;
+                    path = pathToSave();
 
-                break;
-            case R.id.stopBtn:
+                    Toast.makeText(getApplicationContext(), "녹음을 시작합니다.", Toast.LENGTH_SHORT).show();
+                }
+
+                //녹음 -> 일시중지
                 if (isRecording) {
+                    isRecording = false;
+                    recordBtn.setBackgroundResource(R.drawable.record_btn);
+                    //order++;
+
+                    Intent pause = new Intent(this, RecordService.class);
+                    pause.putExtra("isRecording", true);
+                    //mService.stopService(pause);
+                    stopService(pause);
+                }
+
+                //일시중지 -> 녹음
+                else {
+                    isRecording = true;
+                    recordBtn.setBackgroundResource(R.drawable.pause_btn_black);
+
+                    Intent intent = new Intent(this, RecordService.class);
+                    intent.putExtra("savePath", path);
+                    intent.putExtra("fileName", tempFileNum);
+                    intent.putExtra("isRecording", true);
+                    tempFileNum++;
+                    //mService.startService(intent);
+                    startService(intent);
+                }
+                break;
+
+            case R.id.stopBtn:
+                if (!isFirst) {
                     Intent intent2 = new Intent(this, RecordService.class);
                     stopService(intent2);
                     isRecording = false;
@@ -174,7 +209,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 //        String mImageCaptureUri = data.getStringExtra(android.provider.MediaStore.EXTRA_OUTPUT);
-        String path = pathToSave();
+        path = pathToSave();
         String name = pictureTakenTime;
 
         if (resultCode == RESULT_OK) {
@@ -332,6 +367,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
         return gson.fromJson(response, new TypeToken<List<RecordListItem>>() {
         }.getType());
     }
+
 
 }
 
