@@ -1,5 +1,6 @@
 package com.lecoder.team9.lecoder;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -10,6 +11,7 @@ import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -55,6 +57,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
     String currentTime,pictureTakenTime;
     String path;
     int tempFileNum = 1;
+    public static int order = 0;
 
     private boolean isFirst = true;
     private boolean isRecording = false;
@@ -164,9 +167,11 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                 if (isRecording) {
                     isRecording = false;
                     recordBtn.setBackgroundResource(R.drawable.record_btn);
+                    //order++;
 
                     Intent pause = new Intent(this, RecordService.class);
                     pause.putExtra("isRecording", true);
+                    //mService.stopService(pause);
                     stopService(pause);
                 }
 
@@ -180,6 +185,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
                     intent.putExtra("fileName", tempFileNum);
                     intent.putExtra("isRecording", true);
                     tempFileNum++;
+                    //mService.startService(intent);
                     startService(intent);
                 }
                 break;
@@ -361,6 +367,7 @@ public class RecordActivity extends FragmentActivity implements View.OnClickList
         return gson.fromJson(response, new TypeToken<List<RecordListItem>>() {
         }.getType());
     }
+
 
 }
 

@@ -1,10 +1,13 @@
 package com.lecoder.team9.lecoder;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaRecorder;
 import android.os.Environment;
 import android.os.IBinder;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.coremedia.iso.boxes.Container;
@@ -21,6 +24,8 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
+import static com.lecoder.team9.lecoder.RecordActivity.order;
+
 public class RecordService extends Service {
     final private  static File RECORDED_FILE = Environment.getExternalStorageDirectory();
 
@@ -32,7 +37,7 @@ public class RecordService extends Service {
     MediaRecorder recorder;
 
     boolean isRecording = false;
-    int num;
+    //int order;
 
     public RecordService() {
     }
@@ -108,8 +113,8 @@ public class RecordService extends Service {
     public void unifyFiles() {
         Log.d("레코드 서비스", "unifyFiles() 메소드");
 
+        //getOrder();
         File path = new File(dirPath +"/"+savePath);
-       // List<String> audioFiles = new ArrayList<String>();
 
         if (!path.exists()) {
             Log.e("Record Service", "경로 오류");
@@ -127,11 +132,16 @@ public class RecordService extends Service {
         //여러 녹음본을 하나로 합치기
         if (files.length > 1) {
             Log.d("레코드 서비스", "녹음본 합치기!");
-            String outputFile = dirPath + "/" + savePath + "/Outpurt" + num + ".mp4";
+            Log.d("레코드 서비스", "order : " + order);
+
+            String outputFile = dirPath + "/" + savePath + "/Output" + order + ".mp4";
 
             Movie[] inMovies = new Movie[2];
             try {
-                inMovies = new Movie[]{MovieCreator.build(dirPath + "/" + savePath + "/" + files[0]), MovieCreator.build(dirPath + "/" + savePath + "/" + files[1])};
+                if (order >= 1)
+                    inMovies = new Movie[]{MovieCreator.build(dirPath + "/" + savePath + "/" + files[1]), MovieCreator.build(dirPath + "/" + savePath + "/" + files[0])};
+                else
+                    inMovies = new Movie[]{MovieCreator.build(dirPath + "/" + savePath + "/" + files[0]), MovieCreator.build(dirPath + "/" + savePath + "/" + files[1])};
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -181,21 +191,21 @@ public class RecordService extends Service {
                 Log.d("파일 목록", file);
             }
 
-//            //합치기 전의 파일들 삭제하기
-//            for (String file : files) {
-//                try {
-//                    File f = new File(dirPath + "/" + savePath + "/" + file);
-//                    if (!file.equals("Output" + num + ".mp4")) {
-//                        if (f.delete())
-//                            Log.d("레코드 서비스", "파일삭제 성공");
-//                        else
-//                            Log.d("레코드 서비스", "파일삭제 실패");
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-            num++;
+            //합치기 전의 파일들 삭제하기
+            for (String file : files) {
+                try {
+                    File f = new File(dirPath + "/" + savePath + "/" + file);
+                    if (!file.equals("Output" + order + ".mp4")) {
+                        if (f.delete())
+                            Log.d("레코드 서비스", "파일삭제 성공");
+                        else
+                            Log.d("레코드 서비스", "파일삭제 실패");
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            order++;
         }
     }
 
